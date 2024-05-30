@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: section-project-deployment
+  name: $POD_NAME-deployment
   labels:
-    app: console-project
+    app: $POD_NAME
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: console-project
+      app: $POD_NAME
   template:
     metadata:
       labels:
-        app: console-project
+        app: $POD_NAME
     spec:
       containers:
-        - name: console-project
-          image: ghcr.io/${IMAGE_NAME}:main
+        - name: $POD_NAME
+          image: $FULL_IMAGE_WITH_TAG
           imagePullPolicy: Always
           resources:
             limits:
@@ -27,3 +27,5 @@ spec:
               memory: 512Mi
           ports:
             - containerPort: 80
+      imagePullSecrets:
+        - name: regcred
